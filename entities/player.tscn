@@ -1,11 +1,139 @@
-[gd_scene load_steps=4 format=3 uid="uid://bfqe1y6g7felm"]
+[gd_scene load_steps=13 format=3 uid="uid://bfqe1y6g7felm"]
 
 [ext_resource type="Script" path="res://entities/player.gd" id="1_h1gf0"]
 [ext_resource type="Texture2D" uid="uid://wj247vp01ryv" path="res://assets/sprites/player_spritesheet.png" id="2_6pfaf"]
+[ext_resource type="PackedScene" uid="uid://crgjlw70auop1" path="res://utilities/extended_audio_stream_player.tscn" id="3_o1srr"]
+[ext_resource type="AudioStream" uid="uid://c3wdoqvu87wv3" path="res://assets/sounds/footstep_1.wav" id="4_jpful"]
+[ext_resource type="AudioStream" uid="uid://cpe5ueudnr6sq" path="res://assets/sounds/jump.wav" id="5_sgucq"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blrgx"]
 radius = 80.0
 height = 360.0
+
+[sub_resource type="Animation" id="Animation_14lx4"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [28, 29, 30, 31, 32, 33, 34, 35, 36, 37]
+}
+
+[sub_resource type="Animation" id="Animation_k3pvd"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [28]
+}
+
+[sub_resource type="Animation" id="Animation_ioddk"]
+resource_name = "run"
+length = 0.7
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sounds/Footstep")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"play_at_random_pitch"
+}, {
+"args": [],
+"method": &"play_at_random_pitch"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_icwph"]
+resource_name = "jump"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [70, 71, 72, 73, 74, 75, 76, 77, 78]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sounds/Jump")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_at_random_pitch"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_bste8"]
+resource_name = "fall"
+length = 0.1
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [98, 99]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r0fom"]
+_data = {
+"RESET": SubResource("Animation_k3pvd"),
+"fall": SubResource("Animation_bste8"),
+"idle": SubResource("Animation_14lx4"),
+"jump": SubResource("Animation_icwph"),
+"run": SubResource("Animation_ioddk")
+}
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -22,3 +150,25 @@ frame = 28
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 40)
 shape = SubResource("CapsuleShape2D_blrgx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_r0fom")
+}
+autoplay = "idle"
+
+[node name="PlayerSpritesheet" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(-213, 51)
+texture = ExtResource("2_6pfaf")
+
+[node name="Sounds" type="Node" parent="."]
+
+[node name="Footstep" parent="Sounds" instance=ExtResource("3_o1srr")]
+stream = ExtResource("4_jpful")
+volume_db = -8.0
+pitch_scale = 2.0
+
+[node name="Jump" parent="Sounds" instance=ExtResource("3_o1srr")]
+stream = ExtResource("5_sgucq")
+volume_db = -8.0
