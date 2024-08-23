@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+enum States {IDLE, RUN, JUMP, FALL}
 
 @export var speed: float = 1000.0
 @export var gravity: float = ProjectSettings.get_setting('physics/2d/default_gravity')
@@ -10,10 +11,15 @@ var hang_time_remaining: float = 0.0
 
 @onready var pivot: Node2D = $Pivot
 @onready var animation_player = $AnimationPlayer
-
+@onready var state_machine: StateMachine = $StateMachine
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	state_machine.add_state(States.IDLE, $StateMachine/Idle)
+	state_machine.add_state(States.RUN, $StateMachine/Run)
+	state_machine.add_state(States.JUMP, $StateMachine/Jump)
+	state_machine.add_state(States.FALL, $StateMachine/Fall)
+
+	state_machine.initialize(self, States.IDLE)
 
 
 func _physics_process(delta: float) -> void:
