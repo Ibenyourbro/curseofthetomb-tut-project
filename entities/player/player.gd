@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends Entity
 
 enum States {IDLE, RUN, JUMP, FALL}
 
@@ -19,11 +19,11 @@ var input_buffer_remaining: float = 0.0
 @onready var footstep_sfx = $Sounds/Footstep
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	super._ready()
 	state_machine.add_state(States.IDLE, $StateMachine/Idle)
 	state_machine.add_state(States.RUN, $StateMachine/Run)
 	state_machine.add_state(States.JUMP, $StateMachine/Jump)
 	state_machine.add_state(States.FALL, $StateMachine/Fall)
-
 	state_machine.initialize(self, States.IDLE)
 
 
@@ -63,3 +63,6 @@ func is_falling() -> bool:
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed('jump'):
 		input_buffer_remaining = jump_input_buffer
+
+	if event.is_action_pressed('attack'):
+		take_damage(1)
