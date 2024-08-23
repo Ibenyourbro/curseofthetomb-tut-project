@@ -1,0 +1,88 @@
+[gd_scene load_steps=9 format=3 uid="uid://chc2ojwjbfy4y"]
+
+[ext_resource type="Script" path="res://entities/scorpion/scorpion.gd" id="1_64aja"]
+[ext_resource type="Texture2D" uid="uid://deo0cctsgsslf" path="res://assets/sprites/scorpion_spritesheet.png" id="2_bip3s"]
+[ext_resource type="Script" path="res://utilities/state_machine.gd" id="3_mw7xy"]
+[ext_resource type="Script" path="res://entities/scorpion/scorpion_patrol.gd" id="4_a5bra"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0pc3g"]
+radius = 80.0
+height = 240.0
+
+[sub_resource type="Animation" id="Animation_rtpiq"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0, 7]
+}
+
+[sub_resource type="Animation" id="Animation_ri8kk"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Pivot/Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7qcit"]
+_data = {
+"RESET": SubResource("Animation_ri8kk"),
+"walk": SubResource("Animation_rtpiq")
+}
+
+[node name="Scorpion" type="CharacterBody2D"]
+scale = Vector2(-1, 1)
+collision_layer = 4
+script = ExtResource("1_64aja")
+
+[node name="Pivot" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Pivot"]
+texture = ExtResource("2_bip3s")
+hframes = 16
+vframes = 2
+
+[node name="WallCheck" type="RayCast2D" parent="Pivot"]
+position = Vector2(0, 140)
+rotation = 1.5708
+scale = Vector2(3, 3)
+target_position = Vector2(0, 70)
+
+[node name="GroundCheck" type="RayCast2D" parent="Pivot"]
+position = Vector2(-150, 140)
+scale = Vector2(3, 3)
+target_position = Vector2(0, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-5, 110)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_0pc3g")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7qcit")
+}
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_mw7xy")
+
+[node name="Patrol" type="Node" parent="StateMachine"]
+script = ExtResource("4_a5bra")
