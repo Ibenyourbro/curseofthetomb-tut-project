@@ -5,13 +5,18 @@ enum States {IDLE, RUN, JUMP, FALL}
 @export var speed: float = 1000.0
 @export var gravity: float = ProjectSettings.get_setting('physics/2d/default_gravity')
 @export var jump_velocity: float = -1500.0
-@export var jump_hang_time: float = 0.15
 
+
+@export var jump_hang_time: float = 0.15
 var hang_time_remaining: float = 0.0
+
+@export var jump_input_buffer: float = 0.15
+var input_buffer_remaining: float = 0.0
 
 @onready var pivot: Node2D = $Pivot
 @onready var animation_player = $AnimationPlayer
 @onready var state_machine: StateMachine = $StateMachine
+@onready var footstep_sfx = $Sounds/Footstep
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	state_machine.add_state(States.IDLE, $StateMachine/Idle)
@@ -36,18 +41,25 @@ func _physics_process(delta: float) -> void:
 			hang_time_remaining -= delta
 		else:
 			velocity.y += gravity
-			if velocity.y > 250.0:
-				animation_player.play('fall')
 
-	if is_on_floor():
-		if Input.is_action_just_pressed('jump'):
-			velocity.y = jump_velocity
-			hang_time_remaining = jump_hang_time
-			animation_player.play('jump')
-		elif velocity.x != 0.0:
-			animation_player.play('run')
-		else:
-			animation_player.play('idle')
-
+	if input_buffer_remaining > 0.0:
+		input_buffer_remaining -= delta
+	
 	velocity.x = direction * speed
 	move_and_slide()
+
+func jump() -> bool:
+	if input_buffer_remaining > 0.0 and is_on_floor():
+		velocity.y = jump_velocity
+		hang_time_remaining = jump_hang_time
+		return true
+	return false
+
+
+func is_falling() -> bool:
+	return velocity.y > 250.0
+
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed('jump'):
+		input_buffer_remaining = jump_input_buffer
