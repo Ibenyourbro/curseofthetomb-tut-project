@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bfqe1y6g7felm"]
+[gd_scene load_steps=23 format=3 uid="uid://bfqe1y6g7felm"]
 
 [ext_resource type="Script" path="res://entities/player/player.gd" id="1_h1gf0"]
 [ext_resource type="Texture2D" uid="uid://wj247vp01ryv" path="res://assets/sprites/player_spritesheet.png" id="2_6pfaf"]
@@ -6,10 +6,16 @@
 [ext_resource type="AudioStream" uid="uid://c3wdoqvu87wv3" path="res://assets/sounds/footstep_1.wav" id="4_jpful"]
 [ext_resource type="AudioStream" uid="uid://cpe5ueudnr6sq" path="res://assets/sounds/jump.wav" id="5_sgucq"]
 [ext_resource type="Script" path="res://utilities/state_machine.gd" id="6_mc86a"]
+[ext_resource type="AudioStream" uid="uid://d1tebg3d48p03" path="res://assets/sounds/attack.wav" id="7_i3sle"]
 [ext_resource type="Script" path="res://entities/player/player_idle.gd" id="7_ogu54"]
 [ext_resource type="Script" path="res://entities/player/player_run.gd" id="8_rqw43"]
 [ext_resource type="Script" path="res://entities/player/player_jump.gd" id="9_exthd"]
 [ext_resource type="Script" path="res://entities/player/player_fall.gd" id="10_8uohy"]
+[ext_resource type="PackedScene" uid="uid://c12nvys0aqh3c" path="res://entities/hurt_box.tscn" id="11_h200g"]
+[ext_resource type="Script" path="res://entities/player/player_attack.gd" id="13_g676r"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_skgvg"]
+size = Vector2(150, 300)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_blrgx"]
 radius = 80.0
@@ -28,6 +34,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [28]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/HurtBox:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_bste8"]
@@ -147,6 +165,32 @@ tracks/0/keys = {
 "update": 0,
 "values": [112, 118]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Pivot/HurtBox:monitoring")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.025, 0.15),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sounds/Attack")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"play_at_random_pitch"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r0fom"]
 _data = {
@@ -170,6 +214,12 @@ texture = ExtResource("2_6pfaf")
 hframes = 14
 vframes = 14
 frame = 28
+
+[node name="HurtBox" parent="Pivot" instance=ExtResource("11_h200g")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pivot/HurtBox"]
+position = Vector2(195, 70)
+shape = SubResource("RectangleShape2D_skgvg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 40)
@@ -197,6 +247,10 @@ pitch_scale = 2.0
 stream = ExtResource("5_sgucq")
 volume_db = -8.0
 
+[node name="Attack" parent="Sounds" instance=ExtResource("3_o1srr")]
+stream = ExtResource("7_i3sle")
+volume_db = -8.0
+
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("6_mc86a")
 
@@ -211,3 +265,12 @@ script = ExtResource("9_exthd")
 
 [node name="Fall" type="Node" parent="StateMachine"]
 script = ExtResource("10_8uohy")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("13_g676r")
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
