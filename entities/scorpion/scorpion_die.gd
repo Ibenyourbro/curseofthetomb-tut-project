@@ -3,8 +3,8 @@ extends State
 # Called whenever we enter a given state
 # I.E Start an Animation
 func _enter(previous_state, host):
-    host.animation_player.play('walk')
-    pass
+    host.animation_player.play('die')
+    host.set_physics_process(false)
 
 # Called whenever we exit a given state
 # I.E Cleanup task
@@ -20,6 +20,4 @@ func _execute(delta, host):
 # I.E If still pressing run button, keep running or
 # if we stop pressring run button, change to idle
 func _get_next_state(host):
-    if host.is_dead:
-        return host.States.DIE
     return null
