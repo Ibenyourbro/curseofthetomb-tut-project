@@ -21,6 +21,7 @@ func _execute(delta, host):
 # I.E If still pressing run button, keep running or
 # if we stop pressring run button, change to idle
 func _get_next_state(host):
+
     if host.attack():
         return host.States.ATTACK
 
@@ -30,6 +31,8 @@ func _get_next_state(host):
     if host.jump():
         return host.States.JUMP
     
+    if host.knockback():
+        return host.States.KNOCKBACK
     #is zero approx helps for finding if its basically 0
     if not is_zero_approx(host.velocity.x):
         return host.States.RUN

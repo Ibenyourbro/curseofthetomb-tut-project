@@ -21,4 +21,7 @@ func _execute(delta, host):
 func _get_next_state(host):
     if host.attack_timer.time_left <= 0.0:
         return host.States.IDLE
+
+    if host.knockback():
+        return host.States.KNOCKBACK
     return null
