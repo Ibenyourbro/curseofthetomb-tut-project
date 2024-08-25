@@ -2,7 +2,8 @@ extends Entity
 
 enum States {IDLE, RUN, JUMP, FALL, ATTACK, KNOCKBACK}
 
-@export var speed: float = 1000.0
+@export var speed: float = 1500.0
+@export var acceleration: float = 150.0
 @export var gravity: float = ProjectSettings.get_setting('physics/2d/default_gravity')
 @export var jump_velocity: float = -1500.0
 @export var knockback_velocity: Vector2 = Vector2(1500, -1500)
@@ -45,14 +46,14 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	super(delta)
 	if not input_disabled:
-		var direction = Input.get_axis('move_left', 'move_right')
+		var direction = get_movement_direction()
 
 		if direction > 0:
 			pivot.scale.x = 1
 		elif direction < 0:
 			pivot.scale.x = -1
 		
-		velocity.x = direction * speed
+		velocity.x = move_toward(velocity.x, direction * speed, acceleration)
 	
 	if not is_on_floor():
 		if hang_time_remaining > 0:
@@ -91,6 +92,9 @@ func knockback() -> bool:
 		knockback_time_remaining = knockback_time
 		return true
 	return false
+
+func get_movement_direction() -> float:
+	return Input.get_axis('move_left', 'move_right')
 
 func _on_damage_taken(attacker: Node2D):
 	did_get_hit = true

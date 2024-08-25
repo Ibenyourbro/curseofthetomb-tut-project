@@ -31,6 +31,6 @@ func _get_next_state(host):
     if host.knockback():
         return host.States.KNOCKBACK
 
-    if is_zero_approx(host.velocity.x):
+    if is_zero_approx(host.get_movement_direction()) and is_zero_approx(host.velocity.x):
         return host.States.IDLE
     return null
