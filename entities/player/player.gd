@@ -24,6 +24,7 @@ var input_disabled: bool = false
 var did_get_hit: bool = false
 #1 to right , -1 to left like get axis
 var hit_direction: int = 1
+var jumps_remaining: int = 1
 
 
 @onready var pivot: Node2D = $Pivot
@@ -61,6 +62,9 @@ func _physics_process(delta: float) -> void:
 			hang_time_remaining -= delta
 		else:
 			velocity.y += gravity
+	elif not [States.JUMP, States.FALL].has(state_machine.current_state):
+		jumps_remaining = 1
+	print(is_on_floor(), [States.JUMP, States.FALL].has(state_machine.current_state))
 
 	if input_buffer_remaining > 0.0:
 		input_buffer_remaining -= delta
@@ -70,9 +74,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func jump() -> bool:
-	if input_buffer_remaining > 0.0 and is_on_floor():
+	if input_buffer_remaining > 0.0 and jumps_remaining > 0:
 		velocity.y = jump_velocity
 		hang_time_remaining = jump_hang_time
+		jumps_remaining -= 1
 		return true
 	return false
 
