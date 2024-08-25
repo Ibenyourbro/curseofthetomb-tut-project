@@ -1,7 +1,7 @@
 extends Entity
 class_name Player
 
-enum States {IDLE, RUN, JUMP, FALL, ATTACK, KNOCKBACK}
+enum States {IDLE, RUN, JUMP, FALL, ATTACK, KNOCKBACK, SPAWN}
 
 @export var speed: float = 1500.0
 @export var acceleration: float = 150.0
@@ -29,10 +29,11 @@ var jumps_remaining: int = 1
 
 
 @onready var pivot: Node2D = $Pivot
-@onready var animation_player = $AnimationPlayer
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine: StateMachine = $StateMachine
 @onready var footstep_sfx = $Sounds/Footstep
 @onready var attack_timer: Timer = $AttackTimer
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	super._ready()
@@ -42,7 +43,8 @@ func _ready() -> void:
 	state_machine.add_state(States.FALL, $StateMachine/Fall)
 	state_machine.add_state(States.ATTACK, $StateMachine/Attack)
 	state_machine.add_state(States.KNOCKBACK, $StateMachine/Knockback)
-	state_machine.initialize(self, States.IDLE)
+	state_machine.add_state(States.SPAWN, $StateMachine/Spawn)
+	state_machine.initialize(self, States.SPAWN)
 	on_damage_taken.connect(_on_damage_taken)
 
 	if has_node("Camera2D"):
