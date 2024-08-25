@@ -2,6 +2,7 @@ extends CharacterBody2D
 class_name Entity
 
 signal on_damage_taken(attacker: Node2D)
+signal on_health_changed(new_health: int)
 
 @export var max_health: int = 1
 var current_health: int = 1
@@ -25,6 +26,7 @@ func take_damage(damage: int, attacker: Node2D):
 
 	current_health -= damage
 	on_damage_taken.emit(attacker)
+	on_health_changed.emit(current_health)
 
 	if invulnerability_time > 0 and current_health > 0:
 		invulnerability_time_remaining = invulnerability_time

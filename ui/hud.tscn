@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://8ou36vqwl0c4"]
+[gd_scene load_steps=3 format=3 uid="uid://8ou36vqwl0c4"]
 
 [ext_resource type="PackedScene" uid="uid://dyrnvjgar4g55" path="res://ui/heart_sprite.tscn" id="1_j8gui"]
+[ext_resource type="Script" path="res://ui/hud.gd" id="1_w5jxo"]
 
 [node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_w5jxo")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -23,18 +25,13 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="HeartArea" type="HBoxContainer" parent="MarginContainer/Rows/TopRow"]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HeartSprite" parent="MarginContainer/Rows/TopRow/HeartArea" instance=ExtResource("1_j8gui")]
 layout_mode = 2
 
 [node name="HeartSprite2" parent="MarginContainer/Rows/TopRow/HeartArea" instance=ExtResource("1_j8gui")]
-layout_mode = 2
-
-[node name="HeartSprite3" parent="MarginContainer/Rows/TopRow/HeartArea" instance=ExtResource("1_j8gui")]
-layout_mode = 2
-
-[node name="HeartSprite4" parent="MarginContainer/Rows/TopRow/HeartArea" instance=ExtResource("1_j8gui")]
 layout_mode = 2
 
 [node name="MiddleRow" type="HBoxContainer" parent="MarginContainer/Rows"]
