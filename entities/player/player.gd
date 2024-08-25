@@ -70,8 +70,6 @@ func _physics_process(delta: float) -> void:
 			velocity.y += gravity
 	elif not [States.JUMP, States.FALL].has(state_machine.current_state):
 		jumps_remaining = 1
-	print(is_on_floor(), [States.JUMP, States.FALL].has(state_machine.current_state))
-
 	if input_buffer_remaining > 0.0:
 		input_buffer_remaining -= delta
 

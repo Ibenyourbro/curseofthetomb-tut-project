@@ -20,7 +20,6 @@ func add_state(key, node):
 
 func set_state(new_state):
 	if not states.has(new_state):
-		print('State machine does not have state %s' % new_state)
 		return
 	previous_state = current_state
 	current_state = new_state
