@@ -125,10 +125,10 @@ position = Vector2(-23, -945)
 [node name="Camera2D" type="Camera2D" parent="Player"]
 position = Vector2(-6, 134)
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="Player"]
+[node name="Sand Particle Effect" type="GPUParticles2D" parent="Player"]
 show_behind_parent = true
 position = Vector2(26, 122)
-amount = 200
+amount = 100
 process_material = SubResource("ParticleProcessMaterial_3i62i")
 lifetime = 3.0
 randomness = 0.44
