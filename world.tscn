@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://b4ek1xucdsicx"]
+[gd_scene load_steps=10 format=4 uid="uid://b4ek1xucdsicx"]
 
 [ext_resource type="Texture2D" uid="uid://dp1ebnyu3un6g" path="res://assets/sprites/curseofthetomb_environment_tileset.png" id="1_qubg1"]
 [ext_resource type="PackedScene" uid="uid://bfqe1y6g7felm" path="res://entities/player/player.tscn" id="2_4bfrc"]
 [ext_resource type="PackedScene" uid="uid://chc2ojwjbfy4y" path="res://entities/scorpion/scorpion.tscn" id="3_8e7m4"]
 [ext_resource type="Script" path="res://utilities/camera_controller.gd" id="3_msyab"]
 [ext_resource type="Script" path="res://utilities/sand_particle_effect.gd" id="4_cm1t0"]
+[ext_resource type="PackedScene" uid="uid://8ou36vqwl0c4" path="res://ui/hud.tscn" id="6_xpxqy"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iet81"]
 texture = ExtResource("1_qubg1")
@@ -150,3 +151,5 @@ position = Vector2(4942, -913)
 
 [node name="Scorpion3" parent="." instance=ExtResource("3_8e7m4")]
 position = Vector2(-2213, -956)
+
+[node name="HUD" parent="." instance=ExtResource("6_xpxqy")]
