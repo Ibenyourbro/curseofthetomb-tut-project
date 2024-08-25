@@ -5,14 +5,15 @@ enum States {IDLE, RUN, JUMP, FALL, ATTACK, KNOCKBACK}
 @export var speed: float = 1500.0
 @export var acceleration: float = 150.0
 @export var gravity: float = ProjectSettings.get_setting('physics/2d/default_gravity')
-@export var jump_velocity: float = -1500.0
+@export var jump_velocity: float = -2500.0
+@export var jump_deceleration: float = 200.0
 @export var knockback_velocity: Vector2 = Vector2(1500, -1500)
 
 @export var knockback_time: float = 0.2
 var knockback_time_remaining: float = 0.0
 
 
-@export var jump_hang_time: float = 0.15
+@export var jump_hang_time: float = 0.2
 var hang_time_remaining: float = 0.0
 
 @export var jump_input_buffer: float = 0.15
@@ -57,7 +58,6 @@ func _physics_process(delta: float) -> void:
 	
 	if not is_on_floor():
 		if hang_time_remaining > 0:
-			velocity.y = jump_velocity
 			hang_time_remaining -= delta
 		else:
 			velocity.y += gravity

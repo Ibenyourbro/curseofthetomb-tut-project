@@ -13,7 +13,8 @@ func _exit(new_state, host):
 # Called every physics frame for current state
 # I.E Work done in process function
 func _execute(delta, host):
-    pass
+    if not Input.is_action_pressed('jump'):
+        host.velocity.y += host.jump_deceleration
 
 # Determines if we need to change state, or stay in same state
 # I.E If still pressing run button, keep running or
