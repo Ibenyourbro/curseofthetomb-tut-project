@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://b4ek1xucdsicx"]
+[gd_scene load_steps=14 format=4 uid="uid://b4ek1xucdsicx"]
 
 [ext_resource type="Script" path="res://world/world.gd" id="1_oldgc"]
 [ext_resource type="Texture2D" uid="uid://dp1ebnyu3un6g" path="res://assets/sprites/curseofthetomb_environment_tileset.png" id="2_7mssr"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://utilities/camera_controller.gd" id="4_thnyt"]
 [ext_resource type="Script" path="res://utilities/sand_particle_effect.gd" id="5_utbgt"]
 [ext_resource type="PackedScene" uid="uid://chc2ojwjbfy4y" path="res://entities/scorpion/scorpion.tscn" id="6_rwayo"]
+[ext_resource type="Script" path="res://collectables/collectable_manager.gd" id="7_2wvqq"]
 [ext_resource type="PackedScene" uid="uid://8ou36vqwl0c4" path="res://ui/hud.tscn" id="7_u8nyv"]
 [ext_resource type="PackedScene" uid="uid://bj1c0ys8bfxtd" path="res://collectables/heart.tscn" id="8_4d6y6"]
 [ext_resource type="PackedScene" uid="uid://byssem1k83f3e" path="res://collectables/coin.tscn" id="8_q5x6x"]
@@ -147,16 +148,25 @@ randomness = 0.44
 fixed_fps = 60
 script = ExtResource("5_utbgt")
 
-[node name="Scorpion" parent="." instance=ExtResource("6_rwayo")]
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Scorpion" parent="Enemies" instance=ExtResource("6_rwayo")]
 position = Vector2(574, -112)
+rotation = -3.14159
+scale = Vector2(1, -1)
 
-[node name="Scorpion2" parent="." instance=ExtResource("6_rwayo")]
+[node name="Scorpion2" parent="Enemies" instance=ExtResource("6_rwayo")]
 position = Vector2(4942, -913)
+rotation = -3.14159
+scale = Vector2(1, -1)
 
-[node name="Scorpion3" parent="." instance=ExtResource("6_rwayo")]
+[node name="Scorpion3" parent="Enemies" instance=ExtResource("6_rwayo")]
 position = Vector2(-2213, -956)
+rotation = -3.14159
+scale = Vector2(1, -1)
 
 [node name="CollectableManager" type="Node" parent="."]
+script = ExtResource("7_2wvqq")
 
 [node name="Heart" parent="CollectableManager" instance=ExtResource("8_4d6y6")]
 position = Vector2(-2994, -731)

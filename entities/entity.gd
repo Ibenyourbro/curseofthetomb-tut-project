@@ -3,6 +3,7 @@ class_name Entity
 
 signal on_damage_taken(attacker: Node2D)
 signal on_health_changed(new_health: int)
+signal on_death(entity: Entity)
 
 @export var max_health: int = 1
 var current_health: int = 1
@@ -60,3 +61,4 @@ func play_invulnerability_tween() -> Tween:
 
 func die():
 	is_dead = true
+	on_death.emit(self)
