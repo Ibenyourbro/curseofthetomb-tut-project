@@ -1,0 +1,74 @@
+[gd_scene load_steps=9 format=3 uid="uid://byssem1k83f3e"]
+
+[ext_resource type="PackedScene" uid="uid://b46y7lxmwfx0y" path="res://collectables/collectable.tscn" id="1_kowvk"]
+[ext_resource type="Texture2D" uid="uid://mypd3skuq72h" path="res://assets/sprites/gem_sprites.png" id="2_xiuhn"]
+[ext_resource type="AudioStream" uid="uid://b2u7yd0g5v4yd" path="res://assets/sounds/gem.wav" id="3_smabp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ri12"]
+size = Vector2(50, 80)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_shqoy"]
+radius = 300.0
+
+[sub_resource type="Animation" id="Animation_86kxh"]
+resource_name = "idle"
+length = 0.5
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.45),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [10, 19]
+}
+
+[sub_resource type="Animation" id="Animation_w3wef"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_60tpy"]
+_data = {
+"RESET": SubResource("Animation_w3wef"),
+"idle": SubResource("Animation_86kxh")
+}
+
+[node name="Coin" instance=ExtResource("1_kowvk")]
+action = 1
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource("RectangleShape2D_8ri12")
+
+[node name="Sprite2D" parent="." index="1"]
+texture = ExtResource("2_xiuhn")
+hframes = 10
+vframes = 2
+
+[node name="CollisionShape2D" parent="AttractionZone" index="0"]
+shape = SubResource("CircleShape2D_shqoy")
+
+[node name="Collect" parent="." index="3"]
+stream = ExtResource("3_smabp")
+volume_db = -8.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." index="5"]
+libraries = {
+"": SubResource("AnimationLibrary_60tpy")
+}
+autoplay = "idle"

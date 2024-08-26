@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://8ou36vqwl0c4"]
+[gd_scene load_steps=4 format=3 uid="uid://8ou36vqwl0c4"]
 
 [ext_resource type="PackedScene" uid="uid://dyrnvjgar4g55" path="res://ui/heart_sprite.tscn" id="1_j8gui"]
 [ext_resource type="Script" path="res://ui/hud.gd" id="1_w5jxo"]
+[ext_resource type="FontFile" uid="uid://b0rfjpseoel1q" path="res://assets/ui/InknutAntiqua-SemiBold.ttf" id="3_1ou1u"]
 
 [node name="HUD" type="CanvasLayer"]
 script = ExtResource("1_w5jxo")
@@ -33,6 +34,18 @@ layout_mode = 2
 
 [node name="HeartSprite2" parent="MarginContainer/Rows/TopRow/HeartArea" instance=ExtResource("1_j8gui")]
 layout_mode = 2
+
+[node name="Spacer" type="Control" parent="MarginContainer/Rows/TopRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CoinAmount" type="Label" parent="MarginContainer/Rows/TopRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_fonts/font = ExtResource("3_1ou1u")
+theme_override_font_sizes/font_size = 64
+text = "10 Coins"
 
 [node name="MiddleRow" type="HBoxContainer" parent="MarginContainer/Rows"]
 layout_mode = 2

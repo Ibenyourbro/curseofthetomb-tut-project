@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://b4ek1xucdsicx"]
+[gd_scene load_steps=13 format=4 uid="uid://b4ek1xucdsicx"]
 
 [ext_resource type="Script" path="res://world/world.gd" id="1_oldgc"]
 [ext_resource type="Texture2D" uid="uid://dp1ebnyu3un6g" path="res://assets/sprites/curseofthetomb_environment_tileset.png" id="2_7mssr"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://chc2ojwjbfy4y" path="res://entities/scorpion/scorpion.tscn" id="6_rwayo"]
 [ext_resource type="PackedScene" uid="uid://8ou36vqwl0c4" path="res://ui/hud.tscn" id="7_u8nyv"]
 [ext_resource type="PackedScene" uid="uid://bj1c0ys8bfxtd" path="res://collectables/heart.tscn" id="8_4d6y6"]
+[ext_resource type="PackedScene" uid="uid://byssem1k83f3e" path="res://collectables/coin.tscn" id="8_q5x6x"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iet81"]
 texture = ExtResource("2_7mssr")
@@ -155,13 +156,51 @@ position = Vector2(4942, -913)
 [node name="Scorpion3" parent="." instance=ExtResource("6_rwayo")]
 position = Vector2(-2213, -956)
 
-[node name="HUD" parent="." instance=ExtResource("7_u8nyv")]
+[node name="CollectableManager" type="Node" parent="."]
 
-[node name="Heart" parent="." instance=ExtResource("8_4d6y6")]
+[node name="Heart" parent="CollectableManager" instance=ExtResource("8_4d6y6")]
 position = Vector2(-2994, -731)
 
-[node name="Heart2" parent="." instance=ExtResource("8_4d6y6")]
+[node name="Heart2" parent="CollectableManager" instance=ExtResource("8_4d6y6")]
 position = Vector2(2181, -524)
 
-[node name="Heart3" parent="." instance=ExtResource("8_4d6y6")]
+[node name="Heart3" parent="CollectableManager" instance=ExtResource("8_4d6y6")]
 position = Vector2(5247, -1028)
+
+[node name="Coin" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(-1197, -521)
+
+[node name="Coin2" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(-923, -272)
+
+[node name="Coin3" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(1485, -300)
+
+[node name="Coin4" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(2427, -592)
+
+[node name="Coin5" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(2664, -935)
+
+[node name="Coin6" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(2992, -1288)
+
+[node name="Coin7" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(3204, -1354)
+
+[node name="Coin8" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(5361, -1042)
+
+[node name="Coin9" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(5351, -1254)
+
+[node name="Coin10" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(5346, -1541)
+
+[node name="Coin11" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(5331, -1843)
+
+[node name="Coin12" parent="CollectableManager" instance=ExtResource("8_q5x6x")]
+position = Vector2(5331, -1843)
+
+[node name="HUD" parent="." instance=ExtResource("7_u8nyv")]
